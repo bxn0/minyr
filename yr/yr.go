@@ -41,10 +41,8 @@ func ConvertTemperature() {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		
 		outputLine := ProcessLine(line)
 
-		
 		_, err := outputWriter.WriteString(outputLine + "\n")
 		if err != nil {
 			panic(err)
@@ -88,7 +86,7 @@ func openInputFile() *os.File {
 	return file
 }
 
-func createOutputFile() (*os.File, error) {
+func createOutputFile() (*os.File, error) { // creates when the program runs
 	outputFilePath := "kjevik-temp-fahr-20220318-20230318.csv"
 	if _, err := os.Stat(outputFilePath); err == nil {
 		fmt.Printf("File %s already exists. Deleting...\n", outputFilePath)
@@ -130,32 +128,29 @@ func ProcessLine(line string) string {
 	} else {
 		return strings.Join(fields, ";")
 	}
-	
+
 }
 
-func convertLastField(lastField string) (string, error) { 
-	
+func convertLastField(lastField string) (string, error) {
+
 	celsius, err := strconv.ParseFloat(lastField, 64)
 	if err != nil {
 		return "", err
 	}
 
-	
-	fahrenheit := conv.CelsiusToFahrenheit(celsius) 
+	fahrenheit := conv.CelsiusToFahrenheit(celsius)
 
-	
 	return fmt.Sprintf("%.1f", fahrenheit), nil // getting floats as strings
 }
 
-func AverageTemperature() {  //get the acerages
-	
+func AverageTemperature() { //get the acerages
+
 	file, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
-	
 	scanner := bufio.NewScanner(file)
 
 	var lines []string
@@ -167,12 +162,10 @@ func AverageTemperature() {  //get the acerages
 		log.Fatal(err)
 	}
 
-	
 	fmt.Println("Choose the type (celsius/fahr):") //choose celc or fahr
 	var unit string
 	fmt.Scan(&unit)
 
-	
 	var sum float64 // getting the average
 	count := 0
 	for i, line := range lines {
@@ -192,8 +185,8 @@ func AverageTemperature() {  //get the acerages
 		}
 
 		if unit == "fahr" {
-			
-			temperature = conv.CelsiusToFahrenheit(temperature) //using funtemps 
+
+			temperature = conv.CelsiusToFahrenheit(temperature) //using funtemps
 		}
 		sum += temperature
 		count++
@@ -208,8 +201,6 @@ func AverageTemperature() {  //get the acerages
 		fmt.Printf("Average temperature: %.2f°C\n", average)
 	}
 }
-
-// Funksjon som teller linjer i en fil
 
 func CountLines(inputFile string) int {
 	file, err := os.Open(inputFile)
@@ -228,7 +219,7 @@ func CountLines(inputFile string) int {
 	return countedLines
 }
 
-func GetAverageTemperature(filepath string, unit string) (string, error) {
+func GetAverageTemperature(filepath string, unit string) (string, error) { //getting the average temp
 	file, err := os.Open(filepath)
 	if err != nil {
 		return "", err
