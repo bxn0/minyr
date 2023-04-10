@@ -15,8 +15,6 @@ func main() {
 	for {
 		fmt.Println("Choose convert, average or exit, You have to choose one of these three")
 
-		Venligst velg convert, average eller exit:
-
 		if !scanner.Scan() {
 			break
 		}
@@ -27,17 +25,16 @@ func main() {
 			fmt.Println("exit")
 			return
 
-		case "convert": 
+		case "convert":
 			fmt.Println("Converting C values to Fahreinheit")
-			
-		
+
 			yr.ConvertTemperature()
 
 		case "average":
 			fmt.Println("Calculation of the average")
 
 			for {
-				
+
 				yr.AverageTemperature()
 
 				var input2 string
